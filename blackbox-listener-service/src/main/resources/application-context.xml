@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="vertxFactory" class="springvertx.verticlelauncher.VertxFactoryObject" init-method="initCluster" />
+
+    <bean id="springVerticleFactory" class="springvertx.verticlelauncher.SpringVerticleFactory">
+        <property name="vertx" ref="vertxFactory" />
+    </bean>
+
+    <bean id="verticlesDeployer" class="springvertx.verticlelauncher.VerticlesDeployer" init-method="deploy" destroy-method="undeploy">
+        <property name="vertx" ref="vertxFactory" />
+        <property name="deploySynchronous" value="true" />
+        <property name="verticles">
+            <list>
+                <bean class="springvertx.verticlelauncher.VerticleBean">
+                    <property name="beanName" value="spring:blackBoxKafkaMessagesListenerVerticle"/>
+                    <property name="scale" value="false" />
+                    <property name="configName" value="kafkaConfig" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="blackBoxKafkaMessagesListenerVerticle" class="com.bigpanda.verticles.BlackBoxKafkaMessagesListenerVerticle" scope="prototype">
+        <property name="topic" value="from-black-box" />
+        <property name="kafkaConfig">
+            <props>
+                <prop key="bootstrap.servers">${kafka.bootstrap.servers}</prop>
+                <prop key="key.deserializer">org.apache.kafka.common.serialization.StringDeserializer</prop>
+                <prop key="value.deserializer">org.apache.kafka.common.serialization.StringDeserializer</prop>
+                <prop key="group.id">blackbox</prop>
+                <prop key="auto.offset.reset">earliest</prop>
+                <prop key="enable.auto.commit">true</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>
