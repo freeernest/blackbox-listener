@@ -147,20 +147,11 @@
             <version>1.7.25</version>
         </dependency>
         <dependency>
-            <groupId>com.bigpanda</groupId>
-            <artifactId>blackbox-runner-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>com.vaadin.external.google</groupId>
+            <artifactId>android-json</artifactId>
+            <version>0.0.20131108.vaadin1</version>
         </dependency>
-        <dependency>
-            <groupId>com.cedex</groupId>
-            <artifactId>vertx-microservice-commons</artifactId>
-            <version>0.0.5-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.cedex</groupId>
-            <artifactId>evaluation-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
     </dependencies>
 
     <build>
